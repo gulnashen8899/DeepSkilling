@@ -1,0 +1,88 @@
+<h2>Reactive Enrollment Form</h2>
+
+<form [formGroup]="enrollForm" (ngSubmit)="onSubmit()">
+
+<label>Name</label><br>
+
+<input type="text" formControlName="studentName">
+
+<br><br>
+
+<label>Email</label><br>
+
+<input type="email" formControlName="studentEmail">
+
+<span *ngIf="enrollForm.get('studentEmail')?.errors?.['emailTaken']">
+  Email already taken.
+</span>
+
+
+<br><br>
+
+<label>Course ID</label><br>
+
+<input type="text" formControlName="courseId">
+
+<span *ngIf="enrollForm.get('courseId')?.errors?.['noCourseCode']">
+  Course code starting with XX is not allowed.
+</span>
+
+<br><br>
+
+<label>Semester</label><br>
+
+<select formControlName="preferredSemester">
+
+<option>Odd</option>
+
+<option>Even</option>
+
+</select>
+
+<br><br>
+
+<label>
+
+<input type="checkbox"
+
+formControlName="agreeToTerms">
+
+Agree To Terms
+
+</label>
+
+<br><br>
+
+<h3>Additional Courses</h3>
+
+<button
+type="button"
+(click)="addCourse()">
+
+Add Another Course
+
+</button>
+
+<div *ngFor="let ctrl of additionalCourses.controls; let i = index">
+
+  <input [formControl]="getCourseControl(i)">
+
+  <button
+    type="button"
+    (click)="removeCourse(i)">
+    Remove
+  </button>
+
+</div>
+
+<br>
+
+<button
+type="submit"
+[disabled]="enrollForm.invalid">
+
+Submit
+
+</button>
+
+</form>
